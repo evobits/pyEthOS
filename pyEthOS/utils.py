@@ -11,6 +11,13 @@ def to_string(x):
 def get_timestamp():
     return datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
 
+def check_hex_value(str_val):
+    try:
+        hexval = int(str_val, 16)
+        return True
+    except:
+        return False
+
 def raise_for_error(response):
     try:
         response.raise_for_status()
@@ -53,5 +60,3 @@ def enum(enum_type='enum', base_classes=None, methods=None, **attrs):
     methods.update(attrs)
     methods['__init__'] = __init__
     return type(to_string(enum_type), base_classes, methods)
-
-HTTP_METHODS = enum('HTTPMethod', GET='GET', POST='POST',  PUT='PUT', DELETE='DELETE', PATCH='PATCH')
