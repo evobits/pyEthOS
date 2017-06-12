@@ -1,30 +1,29 @@
 import os, time, requests
 import validators
 
-from .utils import get_timestamp, enum, check_hex_value, get_exception_for_error_code
+from .utils import get_timestamp, check_hex_value, Enum
+from .exceptions import get_exception_for_error_code
 
 is_travis = 'TRAVIS' in os.environ
 
-ETHOS_API_GRAPH_DATA_ROUTES = enum('ETHOS_API_GRAPH_DATA_ROUTES',
-    RX_KBPS='rx_kbps',
-    TX_KBPS='tx_kbps',
-    SYSLOAD='load',
-    CPU_LOAD='cpu_temp',
-    HASHRATE='hash',
-    GPU_CORECLOCK='core',
-    GPU_MEMCLOCK='mem',
-    GPU_FANRPM='fanrpm',
-    GPU_TEMP='temp',
-    GPU_HASHRATE='miner_hashes',
-)
+class ETHOS_API_GRAPH_DATA_ROUTES(Enum):
+    RX_KBPS       = 'rx_kbps'
+    TX_KBPS       = 'tx_kbps'
+    SYSLOAD       = 'load'
+    CPU_LOAD      = 'cpu_temp'
+    HASHRATE      = 'hash'
+    GPU_CORECLOCK ='core'
+    GPU_MEMCLOCK  = 'mem'
+    GPU_FANRPM    = 'fanrpm'
+    GPU_TEMP      = 'temp'
+    GPU_HASHRATE  = 'miner_hashes'
 
-HTTP_METHODS = enum('HTTPMethod',
-    GET='GET',
-    POST='POST',
-    PUT='PUT',
-    DELETE='DELETE',
-    PATCH='PATCH'
-)
+class HTTP_METHODS(Enum):
+    GET    = 'GET'
+    POST   = 'POST'
+    PUT    = 'PUT'
+    DELETE = 'DELETE'
+    PATCH  = 'PATCH'
 
 class API_Object(object):
     endpoint = None
@@ -57,7 +56,7 @@ class API_Object(object):
         if not isinstance(method, str):
             raise ValueError("method must be a string")
 
-        elif method not in HTTP_METHODS.enums.values():
+        elif method not in HTTP_METHODS.values():
             raise ValueError("The method value (%s) is not supported, please use one of the following ['GET', 'POST', 'PUT', 'DELETE', 'PATCH']" % method)
 
         else:
@@ -90,8 +89,7 @@ class API_Object(object):
         elif len(path) > 0 and path[0] == "/":
             path = path[1:]
 
-        else:
-            url = self.endpoint + path
+        url = self.endpoint + path
 
         if not validators.url(url):
             raise ValueError("url (%s) is not a valid url." % url)
@@ -171,10 +169,7 @@ class EthOS_API(API_Object):
         payload["success"] = True
         payload ["timestamp"] = get_timestamp()
 
-        if response.text != "":
-            payload["payload"] = response.json()
-        else:
-            payload["payload"] = dict()
+        payload["payload"] = response.json()
 
         return payload
 
@@ -186,7 +181,10 @@ class EthOS_API(API_Object):
         payload["success"] = True
         payload ["timestamp"] = get_timestamp()
 
-        payload["rig_ids"] = list(api_call["payload"]["rigs"].keys())
+        try:
+            payload["rig_ids"] = list(api_call["payload"]["rigs"].keys())
+        except KeyError:
+            payload["rig_ids"] = list()
 
         self.rigs_list = payload["rig_ids"] # We update the list
 
@@ -213,11 +211,6 @@ class EthOS_API(API_Object):
 
         return payload
 
-        payload = dict()
-
-        payload["success"] = True
-        payload ["timestamp"] = get_timestamp()
-
     def get_graph_data(self, api_request=None, rigID=None):
 
         # api_request Validation
@@ -228,7 +221,7 @@ class EthOS_API(API_Object):
         elif not isinstance(api_request, str):
             raise ValueError("api_request must be a string")
 
-        elif api_request not in ETHOS_API_GRAPH_DATA_ROUTES.enums.values():
+        elif api_request not in ETHOS_API_GRAPH_DATA_ROUTES.values():
             raise ValueError("api_request must have one of the following values: ['core', 'temp', 'hash', 'miner_hashes', 'rx_kbps', 'fanrpm', 'cpu_temp', 'mem', 'load', 'tx_kbps']")
 
         # rigID Validation
@@ -260,10 +253,7 @@ class EthOS_API(API_Object):
         payload["success"] = True
         payload ["timestamp"] = get_timestamp()
 
-        if response.text != "":
-            payload["payload"] = response.json()
-        else:
-            payload["payload"] = dict()
+        payload["payload"] = response.json()
 
         return payload
 
@@ -286,10 +276,7 @@ class Blockchain_API(Eth_Wallet_API_Object):
         payload["success"] = True
         payload ["timestamp"] = get_timestamp()
 
-        if response.text != "":
-            payload["payload"] = response.json()
-        else:
-            payload["payload"] = dict()
+        payload["payload"] = response.json()
 
         return payload
 
@@ -312,9 +299,6 @@ class Ethermine_API(Eth_Wallet_API_Object):
         payload["success"] = True
         payload ["timestamp"] = get_timestamp()
 
-        if response.text != "":
-            payload["payload"] = response.json()
-        else:
-            payload["payload"] = dict()
+        payload["payload"] = response.json()
 
         return payload

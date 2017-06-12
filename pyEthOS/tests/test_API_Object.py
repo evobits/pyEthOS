@@ -64,14 +64,14 @@ class Test_API_Object(TestCase):
         api = ethos.API_Object(endpoint="https://api.blockcypher.com/")
         self.assertRaises(ValueError, api.make_request, method="GET", path="v1/eth/main", params=list())
 
-    def test_valid_request(self, path="v1/eth/main", params=None, headers=None):
+    def test_valid_request(self, path="v1/eth/main", params=None, headers=None, debug=False):
 
         raised = False
         error  = ''
 
         try:
-            api = ethos.API_Object(endpoint="https://api.blockcypher.com/")
-            response = api.make_request(ethos.HTTP_METHODS.GET, path)
+            api = ethos.API_Object(endpoint="https://api.blockcypher.com/", debug=debug)
+            response = api.make_request(ethos.HTTP_METHODS.GET, path, params, headers)
 
             reference_dict = {
                 "name": "",
@@ -103,3 +103,9 @@ class Test_API_Object(TestCase):
 
     def test_valid_params_request_dict(self):
         self.test_valid_request(params=dict())
+
+    def test_valid_path_request_dict_startingSlash(self):
+        self.test_valid_request(path="/v1/eth/main")
+
+    def test_valid_request_dict_withDebug(self):
+        self.test_valid_request(debug=True)

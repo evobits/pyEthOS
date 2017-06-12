@@ -2,6 +2,11 @@ from unittest import TestCase
 
 import pyEthOS.pyEthOS as ethos
 
+import string, random
+
+def id_generator(size=6, chars=string.ascii_lowercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
+
 class Test_EthOS_API(TestCase):
 
     ############ __init__() function ############
@@ -33,7 +38,7 @@ class Test_EthOS_API(TestCase):
 
     ############ get_summary() function ############
 
-    def test_valid_summary(self):
+    def test_valid_summary_existingPanel(self):
         raised = False
         error  = ''
 
@@ -42,6 +47,23 @@ class Test_EthOS_API(TestCase):
             response = api.get_summary()
 
             self.assertTrue(response["success"])
+
+        except Exception as e:
+            raised = True
+            error  = str(e)
+
+        self.assertFalse(raised, error)
+
+    def test_valid_summary_unexistingPanel(self):
+        raised = False
+        error  = ''
+
+        try:
+            for _ in range(4): # With 4 randomly generated custompanel names, we are sure that one won't be used
+                api = ethos.EthOS_API(custompanel=id_generator())
+                response = api.get_summary()
+
+                self.assertTrue(response["success"])
 
         except Exception as e:
             raised = True
@@ -196,7 +218,7 @@ class Test_EthOS_API(TestCase):
         try:
             api = ethos.EthOS_API(custompanel="ethos1")
 
-            for request in ethos.ETHOS_API_GRAPH_DATA_ROUTES.enums.values():
+            for request in ethos.ETHOS_API_GRAPH_DATA_ROUTES.values():
                 response = api.get_graph_data(request, "9a704a")
 
                 self.assertTrue(response["success"])
