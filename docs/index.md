@@ -18,7 +18,7 @@ https://dekhtiarjonathan.github.io/pyEthOS/
 The library is available with PIP:
 
 ```shell
-pip install PyEthOS
+pip install pyEthOS
 ```
 
 If prefered, the library can be compiled with following commands:
