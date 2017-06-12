@@ -2,8 +2,8 @@
 
 [![Build Status](https://travis-ci.org/DEKHTIARJonathan/pyEthOS.svg?branch=master)](https://travis-ci.org/DEKHTIARJonathan/pyEthOS)
 [![Licence](https://img.shields.io/pypi/l/pyEthOS.svg)](https://github.com/DEKHTIARJonathan/pyEthOS/blob/master/LICENSE)
+[![Coverage Status](https://coveralls.io/repos/github/DEKHTIARJonathan/pyEthOS/badge.svg?branch=master)](https://coveralls.io/github/DEKHTIARJonathan/pyEthOS?branch=master)
 [![PyPI version](https://badge.fury.io/py/pyEthOS.svg)](https://pypi.python.org/pypi/pyEthOS/)
-[![PyPI Monthly Downloads](https://img.shields.io/pypi/dm/pyEthOS.svg)](https://pypi.python.org/pypi/pyEthOS/)
 [![PyPI Lib Format](https://img.shields.io/pypi/format/pyEthOS.svg)](https://pypi.python.org/pypi/pyEthOS/)
 [![PyPI Python Version](https://img.shields.io/pypi/pyversions/pyEthOS.svg)](https://pypi.python.org/pypi/pyEthOS/)
 [![PyPI Status](https://img.shields.io/pypi/status/pyEthOS.svg)](https://pypi.python.org/pypi/pyEthOS/)

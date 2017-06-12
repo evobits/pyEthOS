@@ -1,8 +1,8 @@
 PyEthOS
 =======
 
-|Build Status| |Licence| |PyPI version| |PyPI Monthly Downloads| |PyPI
-Lib Format| |PyPI Python Version| |PyPI Status|
+|Build Status| |Licence| |Coverage Status| |PyPI version| |PyPI Lib
+Format| |PyPI Python Version| |PyPI Status|
 
 Python 2 and 3 interface to the EthOS custom Dashboard API
 
@@ -278,9 +278,9 @@ said Software.
    :target: https://travis-ci.org/DEKHTIARJonathan/pyEthOS
 .. |Licence| image:: https://img.shields.io/pypi/l/pyEthOS.svg
    :target: https://github.com/DEKHTIARJonathan/pyEthOS/blob/master/LICENSE
+.. |Coverage Status| image:: https://coveralls.io/repos/github/DEKHTIARJonathan/pyEthOS/badge.svg?branch=master
+   :target: https://coveralls.io/github/DEKHTIARJonathan/pyEthOS?branch=master
 .. |PyPI version| image:: https://badge.fury.io/py/pyEthOS.svg
-   :target: https://pypi.python.org/pypi/pyEthOS/
-.. |PyPI Monthly Downloads| image:: https://img.shields.io/pypi/dm/pyEthOS.svg
    :target: https://pypi.python.org/pypi/pyEthOS/
 .. |PyPI Lib Format| image:: https://img.shields.io/pypi/format/pyEthOS.svg
    :target: https://pypi.python.org/pypi/pyEthOS/
