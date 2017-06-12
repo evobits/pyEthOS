@@ -32,7 +32,9 @@ class EthOSAPI(object):
     def __init__(self, custompanel=None, debug=False):
 
         if custompanel is None:
-            raise Exception("custompanel is not defined. Please have look to http://########.ethosdistro.com")
+            raise ValueError("custompanel is not defined. Please have look to http://########.ethosdistro.com")
+        elif len(custompanel) != 6:
+            raise ValueError("custompanel (%s) must have only 6 characters" % custompanel)
         else:
             self.custompanel     = custompanel
             self.panel_endpoint  = self.panel_endpoint % custompanel
