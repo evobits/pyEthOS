@@ -13,6 +13,10 @@ This Python Package is not affiliated with EthOS distribution available on [etho
 
 The Author expressly disclaims any warranty for this product, including all descriptions, documentation, and on-line documentation. This Software is provided 'AS IS' without warranty of any kind, including without limitation, any implied warranties of fitness for a particular purpose or result. You agree to assume the entire risk for any damage or result arising from its download, installation and use, including the license process. In no event will the Author (or his agents and/or associates) be liable to you for any incidental or consequential damages or losses whatsoever, including without limitation, damage to data, property or profits, arising from any use, or from any inability to use said Software.
 
+## Documentation is available here:
+
+https://dekhtiarjonathan.github.io/pyEthOS/
+
 ## Example
 
 ```python
