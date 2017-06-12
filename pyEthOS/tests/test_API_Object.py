@@ -71,7 +71,7 @@ class Test_API_Object(TestCase):
 
         try:
             api = ethos.API_Object(endpoint="https://api.blockcypher.com/", debug=debug)
-            response = api.make_request(ethos.HTTP_METHODS.GET, path, params, headers)
+            response = api.make_request(ethos.HTTP_METHODS.GET, path, params=params, headers=headers)
 
             reference_dict = {
                 "name": "",
