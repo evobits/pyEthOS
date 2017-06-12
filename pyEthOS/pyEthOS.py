@@ -1,4 +1,5 @@
 import requests
+import validators
 from .utils import raise_for_error, get_timestamp, enum, check_hex_value, check_hex_value
 
 REQUEST_TYPES = enum('REQUEST_TYPES',
@@ -22,27 +23,25 @@ HTTP_METHODS = enum('HTTPMethod',
     PATCH='PATCH'
 )
 
-class EthOSAPI(object):
+class API_Object(object):
+    endpoint = None
+    _error   = None
+    debug    = False
 
-    _error      = None
-    custompanel = None
-    panel_endpoint    = "http://%s.ethosdistro.com/"
-    _error      = None
+    def __init__(self, endpoint=None, debug=False):
+        if endpoint is None:
+            raise ValueError("endpoint can't be of NoneType")
 
-    def __init__(self, custompanel=None, debug=False):
+        try:
+            validators.url(endpoint)
+        except:
+            raise ValueError("endpoint (%s) is not a valid url." % endpoint)
 
-        if custompanel is None:
-            raise ValueError("custompanel is not defined. Please have look to http://########.ethosdistro.com")
-        elif len(custompanel) != 6:
-            raise ValueError("custompanel (%s) must have only 6 characters" % custompanel)
-        else:
-            self.custompanel     = custompanel
-            self.panel_endpoint  = self.panel_endpoint % custompanel
-            self.debug           = debug
+        if debug:
+            print("DEBUG: endpoint = %s" % endpoint)
 
-    @property
-    def last_error(self):
-        return self._error
+        self.endpoint = endpoint
+        self.debug    = debug
 
     def make_request(self, method, path, data=None, params=None, headers=None, timeout=60):
 
@@ -59,7 +58,7 @@ class EthOSAPI(object):
         if method not in HTTP_METHODS.enums.values():
             method = HTTP_METHODS.GET
 
-        url = self.panel_endpoint + path
+        url = self.endpoint + path
 
         if self.debug:
             print("DEBUG: url => %s" % url)
@@ -68,7 +67,24 @@ class EthOSAPI(object):
 
         return requests.request(method, url, **kw)
 
-class EthOSApplication(EthOSAPI):
+    @property
+    def last_error(self):
+        return self._error
+
+class EthOS_API(API_Object):
+    custompanel = None
+
+    def __init__(self, custompanel=None, debug=False):
+
+        if custompanel is None:
+            raise ValueError("custompanel is not defined. Please have look to http://########.ethosdistro.com")
+        elif len(custompanel) != 6:
+            raise ValueError("custompanel (%s) must have only 6 characters" % custompanel)
+
+        self.custompanel  = custompanel
+        endpoint          = "http://%s.ethosdistro.com/" % custompanel
+
+        API_Object.__init__(self, endpoint=endpoint, debug=debug)
 
     def get_summary(self):
         params = dict()
@@ -147,6 +163,86 @@ class EthOSApplication(EthOSAPI):
         params.update({'rig': rigID})
 
         response = self.make_request(HTTP_METHODS.GET, "graphs/", params=params)
+        raise_for_error(response)
+
+        payload = dict()
+
+        payload["success"] = True
+        payload ["timestamp"] = get_timestamp()
+
+        if response.text != "":
+            payload["payload"] = response.json()
+        else:
+            payload["payload"] = dict()
+
+        return payload
+
+class Blockchain_API(API_Object):
+
+    wallet_addr = None
+
+    def __init__(self, wallet=None, debug=False):
+
+        if wallet[:2] == "0x": # Remove prefixed "0x" value
+            wallet = wallet[2:]
+
+        if not check_hex_value(wallet):
+            raise ValueError("wallet (0x%s) is not a valid hexadecimal value" % wallet)
+
+        elif len(wallet) != 40:
+            raise ValueError("wallet (%s) must have only 40 characters without the '0x' prefix" % custompanel)
+
+        endpoint = "https://api.blockcypher.com/"
+
+        API_Object.__init__(self, endpoint=endpoint, debug=debug)
+
+        self.wallet_addr = wallet
+
+    def get_account_balance(self):
+
+        api_path = "v1/eth/main/addrs/%s/balance" % self.wallet_addr
+
+        response = self.make_request(HTTP_METHODS.GET, api_path)
+        raise_for_error(response)
+
+        payload = dict()
+
+        payload["success"] = True
+        payload ["timestamp"] = get_timestamp()
+
+        if response.text != "":
+            payload["payload"] = response.json()
+        else:
+            payload["payload"] = dict()
+
+        return payload
+
+class Ethermine_API(API_Object):
+
+    wallet_addr = None
+
+    def __init__(self, wallet=None, debug=False):
+
+        if wallet[:2] == "0x": # Remove prefixed "0x" value
+            wallet = wallet[2:]
+
+        if not check_hex_value(wallet):
+            raise ValueError("wallet (0x%s) is not a valid hexadecimal value" % wallet)
+
+        elif len(wallet) != 40:
+            raise ValueError("wallet (%s) must have only 40 characters without the '0x' prefix" % custompanel)
+
+        endpoint = "https://ethermine.org/api/"
+
+        API_Object.__init__(self, endpoint=endpoint, debug=debug)
+
+        self.wallet_addr = wallet
+
+    def get_account_stats(self):
+
+        api_path = "miner_new/%s" % self.wallet_addr
+
+        response = self.make_request(HTTP_METHODS.GET, api_path)
         raise_for_error(response)
 
         payload = dict()

@@ -31,7 +31,10 @@ git clone https://github.com/DEKHTIARJonathan/pyEthOS.git
 python setup.py install
 ```
 
-## Example
+## Docuementation
+
+### 1. EthOS API Documentation
+
 ```python
 import pyEthOS.pyEthOS as ethos
 
@@ -39,11 +42,11 @@ if __name__ == '__main__':
 
     PANEL_NAME = "ethos1"
     DEBUG = False # Allow development debug infos to be printed on the console
-    
-    api = ethos.EthOSApplication(PANEL_NAME, debug=DEBUG)
+
+    api = ethos.EthOS_API(PANEL_NAME, debug=DEBUG)
 
     print (api.get_summary())
-    
+
     '''
     {
         "rigs": {
@@ -103,7 +106,7 @@ if __name__ == '__main__':
         }
     }
     '''
-    
+
     print(api.get_rig_status())
     '''
     {
@@ -117,7 +120,7 @@ if __name__ == '__main__':
         }
     }
     '''
-    
+
     print(api.get_rig_ids())
     '''
     {
@@ -133,7 +136,7 @@ if __name__ == '__main__':
     #####################
     # Available routes:
     ######################
-    
+
     # ethos.REQUEST_TYPES.RX_KBPS
     # ethos.REQUEST_TYPES.TX_KBPS
     # ethos.REQUEST_TYPES.SYSLOAD
@@ -144,7 +147,7 @@ if __name__ == '__main__':
     # ethos.REQUEST_TYPES.GPU_FANRPM
     # ethos.REQUEST_TYPES.GPU_TEMP
     # ethos.REQUEST_TYPES.GPU_HASHRATE
-    
+
     print(api.get_graph_data(ethos.REQUEST_TYPES.SYSLOAD, "e057d6"))
     '''
     {
@@ -163,6 +166,78 @@ if __name__ == '__main__':
     '''
 ```
 
+### 2. Blockchain API Documentation
+
+```python
+import pyEthOS.pyEthOS as ethos
+
+if __name__ == '__main__':
+    wallet_addr = "eb090e55b3d0cb2544d5b4fb6f485845068bd932" # The API is able to handle address with the prefix "0x" or no prefix.
+    DEBUG = False # Allow development debug infos to be printed on the console
+
+    api = ethos.Blockchain_API(wallet_addr, debug=DEBUG)
+
+    print(api.get_account_balance())
+    '''
+    {
+    	"payload": {
+    		"balance": 0,
+    		"final_balance": 0,
+    		"total_sent": 0,
+    		"address": "260e285b113b8be32a5141c35d18257792c757db",
+    		"total_received": 0,
+    		"final_n_tx": 0,
+    		"n_tx": 0,
+    		"unconfirmed_balance": 0,
+    		"unconfirmed_n_tx": 0
+    	},
+    	"timestamp": "2017-06-12 15:51:15",
+    	"success": "True"
+    }
+    '''
+```
+
+### 3. Ethermine Pool API Documentation
+
+```python
+import pyEthOS.pyEthOS as ethos
+
+if __name__ == '__main__':
+    wallet_addr = "eb090e55b3d0cb2544d5b4fb6f485845068bd932" # The API is able to handle address with the prefix "0x" or no prefix.
+    DEBUG = False # Allow development debug infos to be printed on the console
+
+    api = ethos.Ethermine_API(wallet_addr, debug=True)
+
+    print(api.get_account_stats())
+    '''
+    {
+    	"payload": {
+    		"btcPerMin": 0,
+    		"reportedHashRate": "0H/s",
+    		"avgHashrate": 0,
+    		"hashRate": "0H/s",
+    		"rounds": [],
+    		"ethPerMin": 0,
+    		"payouts": [],
+    		"address": "260e285b113b8be32a5141c35d18257792c757db",
+    		"usdPerMin": 0,
+    		"workers": {},
+    		"unpaid": 0,
+    		"settings": {
+    			"monitor": 0,
+    			"vote": 0,
+    			"voteip": "",
+    			"name": "",
+    			"minPayout": 1,
+    			"email": "",
+    			"ip": ""
+    		}
+    	},
+    	"timestamp": "2017-06-12 15:44:56",
+    	"success": "True"
+    }
+    '''
+```
 
 ## Disclaimer
 This Python Package is not affiliated with EthOS distribution available on [ethosdistro.com](http://ethosdistro.com/).

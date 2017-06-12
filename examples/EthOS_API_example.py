@@ -5,7 +5,7 @@ if __name__ == '__main__':
     PANEL_NAME = "ethos1"
     DEBUG = False # Allow development debug infos to be printed on the console
 
-    api = ethos.EthOSApplication(PANEL_NAME, debug=DEBUG)
+    api = ethos.EthOS_API(PANEL_NAME, debug=DEBUG)
 
     print (api.get_summary())
 
