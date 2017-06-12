@@ -1,8 +1,10 @@
 title: pyEthOS
 description: Python 2 and 3 interface to the EthOS custom Dashboard API
-google_analytics: 
+google_analytics:
 show_downloads: true
 theme: jekyll-theme-architect
+
+include: [..]
 
 gems:
   - jekyll-mentions
