@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/DEKHTIARJonathan/pyEthOS.svg?branch=master)](https://travis-ci.org/DEKHTIARJonathan/pyEthOS)
 [![PyPI version](https://badge.fury.io/py/pyEthOS.svg)](https://badge.fury.io/py/pyEthOS)
 
-Python3 interface to the EthOS custom Dashboard API
+Python 2 and 3 interface to the EthOS custom Dashboard API
 
 This library provides a pure Python interface to the EthOS Custom Dashboard REST APIs.
 
