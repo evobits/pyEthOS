@@ -42,7 +42,95 @@ if __name__ == '__main__':
     api = pyeth.EthOSApplication(PANEL_NAME)
 
     print (api.get_summary())
+    
+    '''
+    {
+        "rigs": {
+            "######": {
+                "condition": "######",
+                "version": "######",
+                "miner": "######",
+                "gpus": "######",
+                "miner_instance": "######",
+                "miner_hashes": "######",
+                "bioses": "######",
+                "meminfo": "######",
+                "vramsize": "######",
+                "drive_name": "######",
+                "mobo": "######",
+                "lan_chip": "R######",
+                "connected_displays": "",
+                "ram": "######",
+                "rack_loc": "######",
+                "ip": "######",
+                "driver": "######",
+                "server_time": 0,
+                "uptime": "######",
+                "miner_secs": 0,
+                "rx_kbps": "######",
+                "tx_kbps": "######",
+                "load": "######",
+                "cpu_temp": "######",
+                "freespace": 0,
+                "hash": 0,
+                "pool": "######",
+                "temp": "######",
+                "powertune": "######",
+                "fanrpm": "######",
+                "core": "######",
+                "mem": "######"
+            }
+        },
+        "total_hash": 0,
+        "alive_gpus": 0,
+        "total_gpus": 0,
+        "alive_rigs": 0,
+        "total_rigs": 0,
+        "current_version": "######",
+        "avg_temp": 0,
+        "capacity": "######",
+        "per_info": {
+            "claymore": {
+                "hash": 0,
+                "per_alive_gpus": 0,
+                "per_total_gpus": 0,
+                "per_alive_rigs": 0,
+                "per_total_rigs": 0,
+                "per_hash-gpu": "######",
+                "per_hash-rig": "######"
+            }
+        }
+    }
+    '''
+    
+    print(api.get_rig_status())
+    '''
+    {
+        "success": "True",
+        "timestamp": "2017-06-12 12:51:15",
+        "payload": {
+            "######": "unreachable",
+            "######": "mining",
+            "######": "mining",
+            "######": "unreachable",
+        }
+    }
+    '''
+    
+    print(api.get_rig_status())
+    '''
+    {
+        "success": "True",
+        "rig_ids": [
+            "######",
+            "######",
+            "######"
+        ],
+        "timestamp": "2017-06-12 12:54:15"
+    }
+    '''
 ```
+
 
 ## Disclaimer
 This Python Package is not affiliated with EthOS distribution available on [ethosdistro.com](http://ethosdistro.com/).
