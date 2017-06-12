@@ -38,8 +38,9 @@ import pyEthOS.pyEthOS as pyeth
 if __name__ == '__main__':
 
     PANEL_NAME = "ethos1"
-
-    api = pyeth.EthOSApplication(PANEL_NAME)
+    DEBUG = False # Allow development debug infos to be printed on the console
+    
+    api = pyeth.EthOSApplication(PANEL_NAME, debug=DEBUG)
 
     print (api.get_summary())
     
@@ -117,7 +118,7 @@ if __name__ == '__main__':
     }
     '''
     
-    print(api.get_rig_status())
+    print(api.get_rig_ids())
     '''
     {
         "success": "True",
@@ -127,6 +128,37 @@ if __name__ == '__main__':
             "######"
         ],
         "timestamp": "2017-06-12 12:54:15"
+    }
+    '''
+    #####################
+    # Available routes:
+    ######################
+    
+    # pyeth.REQUEST_TYPES.RX_KBPS
+    # pyeth.REQUEST_TYPES.TX_KBPS
+    # pyeth.REQUEST_TYPES.SYSLOAD
+    # pyeth.REQUEST_TYPES.CPU_LOAD
+    # pyeth.REQUEST_TYPES.HASHRATE
+    # pyeth.REQUEST_TYPES.GPU_CORECLOCK
+    # pyeth.REQUEST_TYPES.GPU_MEMCLOCK
+    # pyeth.REQUEST_TYPES.GPU_FANRPM
+    # pyeth.REQUEST_TYPES.GPU_TEMP
+    # pyeth.REQUEST_TYPES.GPU_HASHRATE
+    
+    print(api.get_graph_data(pyeth.REQUEST_TYPES.SYSLOAD, "e057d6"))
+    '''
+    {
+        "success": "True",
+        "payload": {
+            "e057d6 sysload": [
+                "1494859237000 0.30",
+                "1494859529000 0.30",
+                "1494859835000 0.27",
+                "1494860134000 0.27",
+                "1494860439000 0.28"
+            ]
+        },
+        "timestamp": "2017-06-12 13:37:22"
     }
     '''
 ```
