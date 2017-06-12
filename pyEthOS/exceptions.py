@@ -1,44 +1,18 @@
-class EthOSError(Exception):
-    pass
-
-
-class EthOSBadRequestError(EthOSError):
-    pass
-
-
-class EthOSUnauthorizedError(EthOSError):
-    pass
-
-
-class EthOSPaymentRequiredError(EthOSError):
-    pass
-
-
-class EthOSNotFoundError(EthOSError):
-    pass
-
-
-class EthOSConflictError(EthOSError):
-    pass
-
-
-class EthOSForbiddenError(EthOSError):
-    pass
-
-
-class EthOSInternalServiceError(EthOSError):
-    pass
-
-
 ERROR_CODE_EXCEPTION_MAPPING = {
-    400: EthOSBadRequestError,
-    401: EthOSUnauthorizedError,
-    402: EthOSPaymentRequiredError,
-    403: EthOSForbiddenError,
-    404: EthOSNotFoundError,
-    409: EthOSForbiddenError,
-    500: EthOSInternalServiceError
+    400: "Bad Request",
+    401: "Unauthorized",
+    402: "Payment Required",
+    403: "Forbidden",
+    404: "Not Found",
+    405: "Method Not Allowed",
+    406: "Not Acceptable",
+    407: "Proxy Authentication Required",
+    408: "Request Timeout",
+    409: "Conflict",
+    429: "Too Many Requests",
+    500: "Internal Server Error"
 }
 
 def get_exception_for_error_code(error_code):
-    return ERROR_CODE_EXCEPTION_MAPPING.get(error_code, EthOSError)
+    error_msg = ERROR_CODE_EXCEPTION_MAPPING.get(error_code, "Unknown Error")
+    return "Request returned: Error %s => %s" % (error_code, error_msg)

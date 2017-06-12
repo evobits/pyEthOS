@@ -99,18 +99,18 @@ if __name__ == '__main__':
     # Available routes:
     ######################
 
-    # ethos.REQUEST_TYPES.RX_KBPS
-    # ethos.REQUEST_TYPES.TX_KBPS
-    # ethos.REQUEST_TYPES.SYSLOAD
-    # ethos.REQUEST_TYPES.CPU_LOAD
-    # ethos.REQUEST_TYPES.HASHRATE
-    # ethos.REQUEST_TYPES.GPU_CORECLOCK
-    # ethos.REQUEST_TYPES.GPU_MEMCLOCK
-    # ethos.REQUEST_TYPES.GPU_FANRPM
-    # ethos.REQUEST_TYPES.GPU_TEMP
-    # ethos.REQUEST_TYPES.GPU_HASHRATE
+    # ethos.ETHOS_API_GRAPH_DATA_ROUTES.RX_KBPS
+    # ethos.ETHOS_API_GRAPH_DATA_ROUTES.TX_KBPS
+    # ethos.ETHOS_API_GRAPH_DATA_ROUTES.SYSLOAD
+    # ethos.ETHOS_API_GRAPH_DATA_ROUTES.CPU_LOAD
+    # ethos.ETHOS_API_GRAPH_DATA_ROUTES.HASHRATE
+    # ethos.ETHOS_API_GRAPH_DATA_ROUTES.GPU_CORECLOCK
+    # ethos.ETHOS_API_GRAPH_DATA_ROUTES.GPU_MEMCLOCK
+    # ethos.ETHOS_API_GRAPH_DATA_ROUTES.GPU_FANRPM
+    # ethos.ETHOS_API_GRAPH_DATA_ROUTES.GPU_TEMP
+    # ethos.ETHOS_API_GRAPH_DATA_ROUTES.GPU_HASHRATE
 
-    print(api.get_graph_data(ethos.REQUEST_TYPES.SYSLOAD, "e057d6"))
+    print(api.get_graph_data(ethos.ETHOS_API_GRAPH_DATA_ROUTES.SYSLOAD, "e057d6"))
     '''
     {
         "success": "True",
