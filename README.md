@@ -33,14 +33,14 @@ python setup.py install
 
 ## Example
 ```python
-import pyEthOS.pyEthOS as pyeth
+import pyEthOS.pyEthOS as ethos
 
 if __name__ == '__main__':
 
     PANEL_NAME = "ethos1"
     DEBUG = False # Allow development debug infos to be printed on the console
     
-    api = pyeth.EthOSApplication(PANEL_NAME, debug=DEBUG)
+    api = ethos.EthOSApplication(PANEL_NAME, debug=DEBUG)
 
     print (api.get_summary())
     
@@ -134,18 +134,18 @@ if __name__ == '__main__':
     # Available routes:
     ######################
     
-    # pyeth.REQUEST_TYPES.RX_KBPS
-    # pyeth.REQUEST_TYPES.TX_KBPS
-    # pyeth.REQUEST_TYPES.SYSLOAD
-    # pyeth.REQUEST_TYPES.CPU_LOAD
-    # pyeth.REQUEST_TYPES.HASHRATE
-    # pyeth.REQUEST_TYPES.GPU_CORECLOCK
-    # pyeth.REQUEST_TYPES.GPU_MEMCLOCK
-    # pyeth.REQUEST_TYPES.GPU_FANRPM
-    # pyeth.REQUEST_TYPES.GPU_TEMP
-    # pyeth.REQUEST_TYPES.GPU_HASHRATE
+    # ethos.REQUEST_TYPES.RX_KBPS
+    # ethos.REQUEST_TYPES.TX_KBPS
+    # ethos.REQUEST_TYPES.SYSLOAD
+    # ethos.REQUEST_TYPES.CPU_LOAD
+    # ethos.REQUEST_TYPES.HASHRATE
+    # ethos.REQUEST_TYPES.GPU_CORECLOCK
+    # ethos.REQUEST_TYPES.GPU_MEMCLOCK
+    # ethos.REQUEST_TYPES.GPU_FANRPM
+    # ethos.REQUEST_TYPES.GPU_TEMP
+    # ethos.REQUEST_TYPES.GPU_HASHRATE
     
-    print(api.get_graph_data(pyeth.REQUEST_TYPES.SYSLOAD, "e057d6"))
+    print(api.get_graph_data(ethos.REQUEST_TYPES.SYSLOAD, "e057d6"))
     '''
     {
         "success": "True",
