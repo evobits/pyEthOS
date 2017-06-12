@@ -1,17 +1,23 @@
 # PyEthOS
 
 [![Build Status](https://travis-ci.org/DEKHTIARJonathan/pyEthOS.svg?branch=master)](https://travis-ci.org/DEKHTIARJonathan/pyEthOS)
-[![PyPI version](https://badge.fury.io/py/pyEthOS.svg)](https://badge.fury.io/py/pyEthOS)
+[![Licence](https://img.shields.io/pypi/l/pyEthOS.svg)](https://github.com/DEKHTIARJonathan/pyEthOS/blob/master/LICENSE)
+[![PyPI version](https://badge.fury.io/py/pyEthOS.svg)](https://pypi.python.org/pypi/pyEthOS/)
+[![PyPI Monthly Downloads](https://img.shields.io/pypi/dm/pyEthOS.svg)](https://pypi.python.org/pypi/pyEthOS/)
+[![PyPI Lib Format](https://img.shields.io/pypi/format/pyEthOS.svg)](https://pypi.python.org/pypi/pyEthOS/)
+[![PyPI Python Version](https://img.shields.io/pypi/pyversions/pyEthOS.svg)](https://pypi.python.org/pypi/pyEthOS/)
+[![PyPI Status](https://img.shields.io/pypi/status/pyEthOS.svg)](https://pypi.python.org/pypi/pyEthOS/)
 
 Python 2 and 3 interface to the EthOS custom Dashboard API
 
 This library provides a pure Python interface to the EthOS Custom Dashboard REST APIs.
 
 ## Maintainer
-[Jonathan Dekhtiar](https://github.com/DEKHTIARJonathan)
+Github Profile: [Jonathan Dekhtiar](https://github.com/DEKHTIARJonathan)<br>
+Email: [contact@jonathandekhtiar.eu](mailto:contact@jonathandekhtiar.eu)
 
 ## Documentation is available here:
-https://dekhtiarjonathan.github.io/pyEthOS/
+[https://dekhtiarjonathan.github.io/pyEthOS/](https://dekhtiarjonathan.github.io/pyEthOS/)
 
 ## Installation
 
