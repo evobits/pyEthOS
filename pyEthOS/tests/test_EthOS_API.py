@@ -7,6 +7,9 @@ import string, random
 def id_generator(size=6, chars=string.ascii_lowercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
+def hex_generator(size=6):
+    return '%06x' % random.randint(0, 0xFFFFFF)
+
 class Test_EthOS_API(TestCase):
 
     ############ __init__() function ############
@@ -126,13 +129,18 @@ class Test_EthOS_API(TestCase):
     ############ get_graph_data() function ############
 
     def test_invalid_get_graph_data_rigNotExisting(self):
+        raised = False
+
         api = ethos.EthOS_API(custompanel="ethos1")
-        self.assertRaises(
-            RuntimeError,
-            api.get_graph_data,
-            api_request=ethos.ETHOS_API_GRAPH_DATA_ROUTES.SYSLOAD,
-            rigID="aaabbb"
-        )
+
+        try:
+            for _ in range(4): # With 4 randomly generated rigID, we are sure that one won't be used
+                api.get_graph_data(api_request=ethos.ETHOS_API_GRAPH_DATA_ROUTES.SYSLOAD,rigID=hex_generator())
+
+        except RuntimeError as e:
+            raised = True
+
+        self.assertTrue(raised, "No RuntimeError has been raised")
 
     def test_invalid_get_graph_data_rigNone(self):
         api = ethos.EthOS_API(custompanel="ethos1")
@@ -217,9 +225,10 @@ class Test_EthOS_API(TestCase):
 
         try:
             api = ethos.EthOS_API(custompanel="ethos1")
+            rig = api.rigs_list[0]
 
             for request in ethos.ETHOS_API_GRAPH_DATA_ROUTES.values():
-                response = api.get_graph_data(request, "9a704a")
+                response = api.get_graph_data(request, rig)
 
                 self.assertTrue(response["success"])
 

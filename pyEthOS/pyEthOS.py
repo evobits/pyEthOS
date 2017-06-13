@@ -112,15 +112,32 @@ class API_Object(object):
         except:
             raise RuntimeError(get_exception_for_error_code(response.status_code))
 
-class Eth_Wallet_API_Object(API_Object):
-    wallet_addr = None
+class Wallet_API_Object(API_Object):
+    wallet_addr   = None
+    wallet_length = None
 
-    def __init__(self, wallet=None, debug=False, endpoint=None):
+    def __init__(self, wallet=None, debug=False, endpoint=None, wallet_length=None):
+
+        # wallet_length Validation #
+
+        if wallet_length is None:
+            raise ValueError("wallet_length can't be of NoneType.")
+
+        elif not isinstance(wallet_length, int):
+            raise ValueError("wallet_length must be an integer")
+
+        elif wallet_length <= 0:
+            raise ValueError("wallet_length must be a postive not null integer")
+
+        else:
+            self.wallet_length = wallet_length
+
+        # wallet Validation #
 
         if wallet is None:
             raise ValueError("wallet can't be of NoneType.")
 
-        if not isinstance(wallet, str):
+        elif not isinstance(wallet, str):
             raise ValueError("wallet must be a string")
 
         elif wallet[:2] == "0x": # Remove prefixed "0x" value
@@ -129,8 +146,8 @@ class Eth_Wallet_API_Object(API_Object):
         if not check_hex_value(wallet):
             raise ValueError("wallet (0x%s) is not a valid hexadecimal value" % wallet)
 
-        elif len(wallet) != 40:
-            raise ValueError("wallet (%s) must have only 40 characters without the '0x' prefix" % wallet)
+        elif len(wallet) != wallet_length:
+            raise ValueError("wallet (%s) must have only %d characters without the '0x' prefix" % (wallet, wallet_length))
 
         self.wallet_addr = wallet
 
@@ -257,13 +274,14 @@ class EthOS_API(API_Object):
 
         return payload
 
-class Blockchain_API(Eth_Wallet_API_Object):
+class Blockchain_ETH_API(Wallet_API_Object):
 
     def __init__(self, wallet=None, debug=False):
 
-        endpoint = "https://api.blockcypher.com/"
+        endpoint      = "https://api.blockcypher.com/"
+        wallet_length = 40
 
-        Eth_Wallet_API_Object.__init__(self, wallet=wallet, endpoint=endpoint, debug=debug)
+        Wallet_API_Object.__init__(self, wallet=wallet, endpoint=endpoint, debug=debug, wallet_length=wallet_length)
 
     def get_account_balance(self):
 
@@ -280,13 +298,14 @@ class Blockchain_API(Eth_Wallet_API_Object):
 
         return payload
 
-class Ethermine_API(Eth_Wallet_API_Object):
+class Ethermine_ETH_API(Wallet_API_Object):
 
     def __init__(self, wallet=None, debug=False):
 
-        endpoint = "https://ethermine.org/api/"
+        endpoint      = "https://ethermine.org/api/"
+        wallet_length = 40
 
-        Eth_Wallet_API_Object.__init__(self, wallet=wallet, endpoint=endpoint, debug=debug)
+        Wallet_API_Object.__init__(self, wallet=wallet, endpoint=endpoint, debug=debug, wallet_length=wallet_length)
 
     def get_account_stats(self):
 

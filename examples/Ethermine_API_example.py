@@ -4,7 +4,7 @@ if __name__ == '__main__':
     wallet_addr = "eb090e55b3d0cb2544d5b4fb6f485845068bd932" # The API is able to handle address with the prefix "0x" or no prefix.
     DEBUG = False # Allow development debug infos to be printed on the console
 
-    api = ethos.Ethermine_API(wallet_addr, debug=True)
+    api = ethos.Ethermine_ETH_API(wallet_addr, debug=True)
 
     print(api.get_account_stats())
     '''
