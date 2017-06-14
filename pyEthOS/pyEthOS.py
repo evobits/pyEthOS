@@ -439,7 +439,7 @@ class Ethermine_ETH_API(Wallet_API_Object):
         endpoint      = "https://ethermine.org/api/"
         wallet_length = 40
 
-        Wallet_API_Object.__init__(self, wallet=wallet, endpoint=endpoint, debug=debug, wallet_length=wallet_length)
+        Wallet_API_Object.__init__(self, wallet=wallet, endpoint=endpoint, debug=debug, wallet_min_length=wallet_length, wallet_max_length=wallet_length)
 
     def get_account_stats(self):
 
