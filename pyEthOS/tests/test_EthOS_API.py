@@ -234,6 +234,6 @@ class Test_EthOS_API(TestCase):
 
         except Exception as e:
             raised = True
-            error  = "Rig:" + rig + 'type('+type(rig)+') || Error:' + str(e)
+            error  = "Rig:" + rig + ' - type(' + str(type(rig)) + ') || Error:' + str(e)
 
         self.assertFalse(raised, error)
