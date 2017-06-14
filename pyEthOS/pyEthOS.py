@@ -112,25 +112,53 @@ class API_Object(object):
         except:
             raise RuntimeError(get_exception_for_error_code(response.status_code))
 
+###################### BLOCKCHAIN APIs ######################
+
 class Wallet_API_Object(API_Object):
-    wallet_addr   = None
-    wallet_length = None
+    wallet_addr       = None
+    wallet_min_length = None
+    wallet_max_length = None
+    wallet_is_hex     = None
 
-    def __init__(self, wallet=None, debug=False, endpoint=None, wallet_length=None):
+    def __init__(self, wallet=None, debug=False, endpoint=None, wallet_min_length=None, wallet_max_length=None, wallet_is_hex=True):
 
-        # wallet_length Validation #
-
-        if wallet_length is None:
-            raise ValueError("wallet_length can't be of NoneType.")
-
-        elif not isinstance(wallet_length, int):
-            raise ValueError("wallet_length must be an integer")
-
-        elif wallet_length <= 0:
-            raise ValueError("wallet_length must be a postive not null integer")
+        # wallet_is_hex Validation #
+        if not isinstance(wallet_is_hex, bool):
+            raise ValueError("wallet_is_hex must be a boolean")
 
         else:
-            self.wallet_length = wallet_length
+            self.wallet_is_hex = wallet_is_hex
+
+        # wallet_min_length Validation #
+
+        if wallet_min_length is None:
+            raise ValueError("wallet_min_length can't be of NoneType.")
+
+        elif not isinstance(wallet_min_length, int):
+            raise ValueError("wallet_min_length must be an integer")
+
+        elif wallet_min_length <= 0:
+            raise ValueError("wallet_min_length must be a postive not null integer")
+
+        else:
+            self.wallet_min_length = wallet_min_length
+
+        # wallet_max_length Validation #
+
+        if wallet_max_length is None:
+            raise ValueError("wallet_max_length can't be of NoneType.")
+
+        elif not isinstance(wallet_max_length, int):
+            raise ValueError("wallet_max_length must be an integer")
+
+        elif wallet_max_length <= 0:
+            raise ValueError("wallet_max_length must be a postive not null integer")
+
+        elif wallet_max_length < wallet_min_length:
+            raise ValueError("wallet_max_length can't be smaller than wallet_min_length")
+
+        else:
+            self.wallet_max_length = wallet_max_length
 
         # wallet Validation #
 
@@ -143,15 +171,143 @@ class Wallet_API_Object(API_Object):
         elif wallet[:2] == "0x": # Remove prefixed "0x" value
                 wallet = wallet[2:]
 
-        if not check_hex_value(wallet):
+        if wallet_is_hex and not check_hex_value(wallet):
             raise ValueError("wallet (0x%s) is not a valid hexadecimal value" % wallet)
 
-        elif len(wallet) != wallet_length:
-            raise ValueError("wallet (%s) must have only %d characters without the '0x' prefix" % (wallet, wallet_length))
+        elif not(wallet_min_length <= len(wallet) <= wallet_max_length):
+            raise ValueError("wallet (%s) with a length of %d must have a length in range(%d, %d) characters without the '0x' prefix" % (wallet, len(wallet), wallet_min_length, wallet_max_length))
 
         self.wallet_addr = wallet
 
         API_Object.__init__(self, endpoint=endpoint, debug=debug)
+
+class Blockchain_BTC_API(Wallet_API_Object):
+
+    def __init__(self, wallet=None, debug=False):
+
+        endpoint          = "https://api.blockcypher.com/v1/btc/"
+        wallet_min_length = 25
+        wallet_max_length = 34
+
+
+        Wallet_API_Object.__init__(self, wallet=wallet, endpoint=endpoint, debug=debug, wallet_min_length=wallet_min_length, wallet_max_length=wallet_max_length, wallet_is_hex=False)
+
+    def get_account_balance(self):
+
+        api_path = "main/addrs/%s/balance" % self.wallet_addr
+
+        response = self.make_request(HTTP_METHODS.GET, api_path)
+
+        payload = dict()
+
+        payload["success"] = True
+        payload ["timestamp"] = get_timestamp()
+
+        payload["payload"] = response.json()
+
+        return payload
+
+class Blockchain_ETH_API(Wallet_API_Object):
+
+    def __init__(self, wallet=None, debug=False):
+
+        endpoint      = "https://api.blockcypher.com/v1/eth/"
+        wallet_length = 40
+
+        Wallet_API_Object.__init__(self, wallet=wallet, endpoint=endpoint, debug=debug, wallet_min_length=wallet_length, wallet_max_length=wallet_length)
+
+    def get_account_balance(self):
+
+        api_path = "main/addrs/%s/balance" % self.wallet_addr
+
+        response = self.make_request(HTTP_METHODS.GET, api_path)
+
+        payload = dict()
+
+        payload["success"] = True
+        payload ["timestamp"] = get_timestamp()
+
+        payload["payload"] = response.json()
+
+        return payload
+
+class Blockchain_ETC_API(Wallet_API_Object):
+
+    def __init__(self, wallet=None, debug=False):
+
+        endpoint      = "https://etcchain.com/api/v1/"
+        wallet_length = 40
+
+        Wallet_API_Object.__init__(self, wallet=wallet, endpoint=endpoint, debug=debug, wallet_min_length=wallet_length, wallet_max_length=wallet_length)
+
+    def get_account_balance(self):
+
+        api_path = "getAddressBalance"
+
+        params = dict()
+        params.update({'address': "0x" + self.wallet_addr})
+
+        response = self.make_request(HTTP_METHODS.GET, api_path, params=params)
+
+        payload = dict()
+
+        payload["success"] = True
+        payload ["timestamp"] = get_timestamp()
+
+        payload["payload"] = response.json()
+
+        return payload
+
+class Blockchain_ZCASH_API(Wallet_API_Object):
+
+    def __init__(self, wallet=None, debug=False):
+
+        endpoint      = "https://api.zcha.in/v2/"
+        wallet_length = 35
+
+        Wallet_API_Object.__init__(self, wallet=wallet, endpoint=endpoint, debug=debug, wallet_min_length=wallet_length, wallet_max_length=wallet_length, wallet_is_hex=False)
+
+    def get_account_balance(self):
+
+        api_path = "mainnet/accounts/%s" % self.wallet_addr
+
+        response = self.make_request(HTTP_METHODS.GET, api_path)
+
+        payload = dict()
+
+        payload["success"] = True
+        payload ["timestamp"] = get_timestamp()
+
+        payload["payload"] = response.json()
+
+        return payload
+
+'''
+class Blockchain_SIA_API(Wallet_API_Object):
+
+    def __init__(self, wallet=None, debug=False):
+
+        endpoint      = "https://api.blockcypher.com/"
+        wallet_length = 40
+
+        Wallet_API_Object.__init__(self, wallet=wallet, endpoint=endpoint, debug=debug, wallet_length=wallet_length)
+
+    def get_account_balance(self):
+
+        api_path = "v1/eth/main/addrs/%s/balance" % self.wallet_addr
+
+        response = self.make_request(HTTP_METHODS.GET, api_path)
+
+        payload = dict()
+
+        payload["success"] = True
+        payload ["timestamp"] = get_timestamp()
+
+        payload["payload"] = response.json()
+
+        return payload
+'''
+###################### SYSTEM APIs ######################
 
 class EthOS_API(API_Object):
     custompanel = None
@@ -274,29 +430,7 @@ class EthOS_API(API_Object):
 
         return payload
 
-class Blockchain_ETH_API(Wallet_API_Object):
-
-    def __init__(self, wallet=None, debug=False):
-
-        endpoint      = "https://api.blockcypher.com/"
-        wallet_length = 40
-
-        Wallet_API_Object.__init__(self, wallet=wallet, endpoint=endpoint, debug=debug, wallet_length=wallet_length)
-
-    def get_account_balance(self):
-
-        api_path = "v1/eth/main/addrs/%s/balance" % self.wallet_addr
-
-        response = self.make_request(HTTP_METHODS.GET, api_path)
-
-        payload = dict()
-
-        payload["success"] = True
-        payload ["timestamp"] = get_timestamp()
-
-        payload["payload"] = response.json()
-
-        return payload
+###################### MINING POOL APIs ######################
 
 class Ethermine_ETH_API(Wallet_API_Object):
 
