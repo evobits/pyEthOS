@@ -260,6 +260,78 @@ class Blockchain_ETC_API(Wallet_API_Object):
 
         return payload
 
+class Blockchain_DASH_API(Wallet_API_Object):
+
+    def __init__(self, wallet=None, debug=False):
+
+        endpoint      = "https://api.blockcypher.com/v1/dash/"
+        wallet_length = 34
+
+        Wallet_API_Object.__init__(self, wallet=wallet, endpoint=endpoint, debug=debug, wallet_min_length=wallet_length, wallet_max_length=wallet_length, wallet_is_hex=False)
+
+    def get_account_balance(self):
+
+        api_path = "main/addrs/%s/balance" % self.wallet_addr
+
+        response = self.make_request(HTTP_METHODS.GET, api_path)
+
+        payload = dict()
+
+        payload["success"] = True
+        payload ["timestamp"] = get_timestamp()
+
+        payload["payload"] = response.json()
+
+        return payload
+
+class Blockchain_DOGE_API(Wallet_API_Object):
+
+    def __init__(self, wallet=None, debug=False):
+
+        endpoint      = "https://api.blockcypher.com/v1/doge/"
+        wallet_length = 34
+
+        Wallet_API_Object.__init__(self, wallet=wallet, endpoint=endpoint, debug=debug, wallet_min_length=wallet_length, wallet_max_length=wallet_length, wallet_is_hex=False)
+
+    def get_account_balance(self):
+
+        api_path = "main/addrs/%s/balance" % self.wallet_addr
+
+        response = self.make_request(HTTP_METHODS.GET, api_path)
+
+        payload = dict()
+
+        payload["success"] = True
+        payload ["timestamp"] = get_timestamp()
+
+        payload["payload"] = response.json()
+
+        return payload
+
+class Blockchain_LTC_API(Wallet_API_Object):
+
+    def __init__(self, wallet=None, debug=False):
+
+        endpoint      = "https://api.blockcypher.com/v1/ltc/"
+        wallet_length = 34
+
+        Wallet_API_Object.__init__(self, wallet=wallet, endpoint=endpoint, debug=debug, wallet_min_length=wallet_length, wallet_max_length=wallet_length, wallet_is_hex=False)
+
+    def get_account_balance(self):
+
+        api_path = "main/addrs/%s/balance" % self.wallet_addr
+
+        response = self.make_request(HTTP_METHODS.GET, api_path)
+
+        payload = dict()
+
+        payload["success"] = True
+        payload ["timestamp"] = get_timestamp()
+
+        payload["payload"] = response.json()
+
+        return payload
+
 class Blockchain_ZCASH_API(Wallet_API_Object):
 
     def __init__(self, wallet=None, debug=False):
@@ -417,9 +489,7 @@ class EthOS_API(API_Object):
             raise RuntimeError("rigID (%s) is unknown for the user: %s" % (rigID, self.custompanel))
 
         params = dict()
-        params.update({'json': 'yes'})
-        params.update({'type': api_request})
-        params.update({'rig': rigID})
+        params.update({'json': 'yes', 'type': api_request, 'rig': rigID})
 
         response = self.make_request(HTTP_METHODS.GET, "graphs/", params=params)
 
