@@ -1,6 +1,8 @@
 import os, time, requests
 import validators
 
+from past.builtins import basestring
+
 from .utils import get_timestamp, check_hex_value, Enum
 from .exceptions import get_exception_for_error_code
 
@@ -402,7 +404,7 @@ class EthOS_API(API_Object):
         if rigID is None:
             raise ValueError("rigID can't be of NoneType")
 
-        elif not isinstance(rigID, str):
+        elif not isinstance(rigID, basestring):
             raise ValueError("rigID must be a string")
 
         elif len(rigID) != 6:
