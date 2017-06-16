@@ -7,7 +7,6 @@ docopt==0.6.2
 future==0.16.0
 idna==2.5
 nose==1.3.7
-pyethos==1.3.0
 requests==2.17.3
 six==1.10.0
 urllib3==1.21.1
